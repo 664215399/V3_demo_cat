@@ -1,30 +1,45 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+    <router-view />
 </template>
+<script lang='ts'>
+import { defineComponent } from 'vue'
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+export default defineComponent({
+  name: 'app',
+  components: { },
+  setup () {
+    return {
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
     }
+  }
+})
+</script>
+<style lang="scss">
+  * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+    text-decoration: none;
+  }
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+  }
+  #app{
+    width: 100%;
+    // min-width: 1200px;
+    height: 100%;
+  }
+  .wrapper{
+    width:1200px;
+    margin: auto;
+  }
+  @media screen and (max-width: 1240px) {
+   .wrapper{
+    width:80%;
+    margin: auto;
   }
 }
 </style>
