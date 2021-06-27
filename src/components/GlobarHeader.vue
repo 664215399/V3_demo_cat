@@ -8,11 +8,11 @@
       </ul>
       <ul v-else class="GlobarHeader-container-isLogin">
         <li>
-          <dropdown :title='`Hello ${userInfo.name}`' :list="list" >
-            <dropdown-item >新建文章</dropdown-item>
-            <dropdown-item disabled>用户编辑</dropdown-item>
-            <dropdown-item>退出登入</dropdown-item>
-          </dropdown>
+          <st-dropdown :title='`Hello ${userInfo.name}`' :list="list" >
+            <st-dropdown-item >新建文章</st-dropdown-item>
+            <st-dropdown-item disabled>用户编辑</st-dropdown-item>
+            <st-dropdown-item>退出登入</st-dropdown-item>
+          </st-dropdown >
         </li>
       </ul>
     </div>
@@ -21,8 +21,8 @@
 
 <script lang='ts'>
 import { defineComponent, reactive, toRefs, SetupContext, PropType } from 'vue'
-import dropdown, { DdListProps } from './Dropdown.vue'
-import DropdownItem from './DropdownItem.vue'
+import StDropdown, { DdListProps } from './StDropdown.vue'
+import StDropdownItem from './StDropdownItem.vue'
 export interface UserProps {
   isLogin: boolean;
   name?: string;
@@ -47,8 +47,8 @@ export default defineComponent({
     }
   },
   components: {
-    dropdown,
-    DropdownItem
+    StDropdown,
+    StDropdownItem
   },
   setup (props, ctx: SetupContext) {
     const data = reactive({})
