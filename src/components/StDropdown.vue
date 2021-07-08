@@ -1,10 +1,7 @@
 <template>
   <div class="Dropdown" ref='DropdownRef' @mouseenter='domHover(1)' @mouseleave='domHover(0)'>
-
     <div class="Dropdown-title" @click='openToggle' >{{title}}</div>
     <ul class="Dropdown-list"  v-show="isOpen" >
-<!-- @mouseenter='domLeave' -->
-      <!-- <li v-for="(item,index) in list" :key="index">{{item.value}}</li> -->
       <slot></slot>
     </ul>
   </div>
@@ -15,16 +12,14 @@ import {
   defineComponent,
   reactive,
   toRefs,
-  SetupContext,
   ref,
-  PropType,
-  watch
+  watch,
+  onUnmounted
 } from 'vue'
 import userClickOutside from '@/hook/userClickOutside'
-export interface DdListProps {
-  label: number;
-  value: string;
-}
+import mitt from 'mitt'// 事件监听器
+export const mitter = mitt()
+
 export default defineComponent({
   name: '',
   props: {
@@ -32,17 +27,14 @@ export default defineComponent({
       type: String,
       required: true
     },
-    list: {
-      type: Array as PropType<DdListProps[]>,
-      required: true
-    },
+
     trigger: {
       type: String,
       default: 'hover'
     }
   },
   components: {},
-  setup (props, ctx: SetupContext) {
+  setup (props, context) {
     const DropdownRef = ref<null | HTMLElement>(null)
     const data = reactive({})
     const isOpen = ref(false)
@@ -62,10 +54,19 @@ export default defineComponent({
       if (props.trigger !== 'click') return false
       isOpen.value = (isOpen.value && showflag.value)
     })
-
+    const commandEmit = (val:any) => {
+      context.emit('commandEmit', val)
+      isOpen.value = false
+    }
+    mitter.on('handlerCommand', commandEmit)
+    onUnmounted(() => {
+      mitter.off('handlerCommand', commandEmit)// 销毁
+      // funArr=[]
+    })
     return {
       ...toRefs(data),
       isOpen,
+      commandEmit,
       DropdownRef,
       openToggle,
       domHover,
@@ -78,7 +79,6 @@ export default defineComponent({
 <style scoped lang='scss'>
 .Dropdown {
   position: relative;
-
   &-list {
     min-width: 100px;
     border-radius: 3px;
@@ -89,6 +89,7 @@ export default defineComponent({
     transform: translateX(-50%);
     box-shadow: 0 0 16px 0 rgba(102, 102, 102, 0.12);
     color: #333333;
+    z-index: 9999;
   }
 }
 </style>

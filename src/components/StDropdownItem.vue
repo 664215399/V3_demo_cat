@@ -1,24 +1,35 @@
 <template>
-  <li class="Dropdowm-item" :class="{'is-disabled':disabled}">
+  <li class="Dropdowm-item" :class="{'is-disabled':disabled}" @click="commandEmit">
     <slot></slot>
   </li>
 </template>
 
 <script lang='ts'>
 import { defineComponent, reactive, toRefs, SetupContext } from 'vue'
+import { mitter } from './StDropdown.vue'
+
 export default defineComponent({
   name: '',
   props: {
     disabled: {
       type: Boolean,
       default: false
+    },
+    command: {
+      type: String,
+      default: ''
     }
 
   },
   components: {},
-  setup (props, ctx: SetupContext) {
+  setup (props, context) {
     const data = reactive({})
+    const commandEmit = () => {
+      mitter.emit('handlerCommand', props.command)
+    }
     return {
+
+      commandEmit,
       ...toRefs(data)
     }
   }

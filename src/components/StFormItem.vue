@@ -1,6 +1,6 @@
 <template>
   <div class="StForm-item">
-    <label for="userEmail" class="StForm-item-label">{{label}}</label>
+    <label :for="label" class="StForm-item-label">{{label}}</label>
     <slot></slot>
   </div>
 </template>

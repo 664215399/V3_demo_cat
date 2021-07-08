@@ -1,64 +1,111 @@
 <template>
- <div class="login">
+  <div class="login">
     <div class="login-container wrapper">
       <div class="login-container-form">
-        <st-form  >
-          <st-form-item label='邮箱地址'>
-            <st-input :rules="emailRules" placeholder="请输入邮箱地址" type='text'></st-input>
+        <st-form @form-submit="onFormSubmit">
+          <st-form-item label="Email">
+            <st-input
+              :rules="emailRules"
+              placeholder="Please input your Email"
+              type="text"
+              v-model="emailValue"
+            ></st-input>
           </st-form-item>
-          <st-form-item label='密码'>
-            <st-input placeholder="请输入密码" type='password'></st-input>
+          <st-form-item label="Passwoed">
+            <st-input
+              :rules="passRules"
+              placeholder="Please input your password"
+              type="password"
+              autocomplete="off"
+              v-model="passValue"
+            ></st-input>
           </st-form-item>
+          <!-- <template v-slot:submit>
+            <div>
+               <button type="submit" class="StForm-submit-button">Submit</button>
+            </div>
+          </template> -->
         </st-form>
       </div>
     </div>
- </div>
+  </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, reactive, toRefs, SetupContext, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import StForm from '@/components/StForm.vue'
+// import StButton from '@/components/StButton.vue'
 import StFormItem from '@/components/StFormItem.vue'
 import StInput, { RuleProps } from '@/components/StInput.vue'
-
 export default defineComponent({
   name: 'Login',
-  props: {
-  },
+  props: {},
   components: {
     StForm,
     StFormItem,
     StInput
+    // StButton
   },
-  setup (props, ctx: SetupContext) {
-    const data = reactive({
-    })
-    const text = ref('123')
-    const emailRules:RuleProps = [
-      { type: 'required', message: '电子邮箱地址不能为空' },
-      { type: 'email', message: '请输入正确的电子邮箱格式' }
+  setup () {
+    const data = reactive({})
+    const store = useStore()
+    const router = useRouter()
+    const emailValue = ref()
+    const passValue = ref()
+    const emailRules: RuleProps = [
+      { type: 'required', message: 'Email cannot be empty' },
+      { type: 'email', message: 'Email format mismatching' }
     ]
+    const passRules: RuleProps = [
+      { type: 'required', message: 'Password cannot be empty' }
+    ]
+    const onFormSubmit = (result: boolean) => {
+      if (result) {
+        const payload = {
+          email: emailValue.value,
+          password: passValue.value
+        }
+        store.dispatch('userLogin', payload).then(res => {
+          if (res.token) router.push('/')
+        })
+      }
+    }
+
     return {
       emailRules,
+      passRules,
       ...toRefs(data),
-      text
+      onFormSubmit,
+      emailValue,
+      passValue
     }
   }
 })
 </script>
 
-<style scoped lang='scss'>
-.login{
-  width:100%;
-  height:100%;
-  background: url('../../assets/images/background.png') no-repeat center center/cover;
-  &-container{
-    height:100%;
+<style scoped lang="scss">
+.login {
+  width: 100%;
+  height: 100%;
+  background: url("../../assets/images/background.png") no-repeat center
+    center/cover;
+  &-container {
+    height: 100%;
     display: flex;
-    &-form{
+    &-form {
       margin: auto;
+      height: 300px;
+      width: 500px;
     }
   }
-
+}
+</style>
+<style lang="scss">
+.login {
+  .StForm-item-label {
+    color: #ffffff;
+  }
 }
 </style>
