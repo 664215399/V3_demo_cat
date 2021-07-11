@@ -1,11 +1,11 @@
 <template>
   <!-- Skeleton And Loading 任选其一即可 -->
 
-  <loadingView v-if="loadingFlag"/>
-  <router-view />
+  <loadingView v-if="loadingFlag" type="globar" />
+  <router-view  />
 </template>
 <script lang='ts'>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import loadingView from '@/components/StLoading.vue'
 import { useStore } from 'vuex'
 
@@ -14,6 +14,10 @@ export default defineComponent({
   components: { loadingView },
   setup () {
     const store = useStore()
+    // const loadingFlag = ref(true)
+    // setTimeout(() => {
+    //   loadingFlag.value = false
+    // }, 50000)
     const loadingFlag = computed(() => store.state.loadingFlag)
     return {
       loadingFlag

@@ -1,51 +1,49 @@
 <template>
-<teleport to='#loading' >
-  <div class="load" :style="{background:background||''}">
-    <div id="load">
-      <div>G</div>
-      <div>N</div>
-      <div>I</div>
-      <div>D</div>
-      <div>A</div>
-      <div>O</div>
-      <div>L</div>
+    <div class="load" :style="{background:background||'',position:type==='globar'?'fixed':'absolute'}">
+      <div id="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
+      </div>
     </div>
-  </div>
-</teleport>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import userDomCreate from '@/hook/userDomCreate'
+type LoadingType = 'globar' | 'local';
 export default defineComponent({
   name: '',
   props: {
-    text: {
-      type: String
+    type: {
+      type: String as PropType<LoadingType>,
+      default: 'globar'
     },
     background: {
       type: String
     }
   },
   components: {},
-  setup (props, context) {
-    userDomCreate('message')
-    return {
-
-    }
+  setup () {
+    userDomCreate('message1')
+    return {}
   }
 })
 </script>
 
 <style lang="scss">
 .load {
-  position: fixed;
-  left:0;
+  // position: fixed;
+  left: 0;
   bottom: 0;
   z-index: 100;
-  width:100%;
-  height:100%;
-  background: rgba(255,255,255,.5);
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;

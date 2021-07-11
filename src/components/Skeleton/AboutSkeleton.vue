@@ -6,7 +6,7 @@
     <div class="AboutSkeleton-description"></div>
     <div class="AboutSkeleton-description"></div>
     <div class="AboutSkeleton-origin">
-      <img :src="countryImg" alt />
+      <img  src='' alt />
       <p></p>
     </div>
     <ul class="AboutSkeleton-temperament">

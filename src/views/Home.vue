@@ -11,7 +11,6 @@ import ColumnList from '@/components/ColumnList.vue'
 import { ColumnProps } from '@/utils/interface'
 import { getColumnList } from '@/api/index'
 import createMessage from '@/hook/createMessage'
-// import StMessage from '@/components/StMessage.vue'
 export default defineComponent({
   name: 'app',
   components: { ColumnList },
@@ -20,7 +19,7 @@ export default defineComponent({
     getColumnList().then(res => {
       // setTimeout(() => {
       dataList.value = res.data
-      createMessage('请求成功', 'success')
+      // createMessage('请求成功', 'success')
       // }, 30000000)
     })
     return {

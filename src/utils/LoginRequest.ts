@@ -12,6 +12,9 @@ Service.interceptors.request.use(config => {
   if (localStorage.getItem('token')) {
     config.headers.Authorization = `Bearer ${getToken()}`
   }
+  // if (config.url === '/unload') {
+  //   config.headers['Content-Type'] = 'multipart/form-data'
+  // }
   if (config.data instanceof FormData) {
     config.data.append('icode', '732F8A5ABA56EA52')
   } else {
@@ -26,7 +29,7 @@ Service.interceptors.response.use((response) => {
   }
 }, error => {
   // console.log(error.response)
-  return Promise.reject(error)
+  return error.response.data.code === 400 ? error.response : Promise.reject(error)
 })
 
 export default Service

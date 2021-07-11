@@ -2,12 +2,17 @@
   <div class="GlobarHeader">
     <div class="GlobarHeader-container wrapper">
       <h2 class="GlobarHeader-container-title">PET FAMILY</h2>
-        <ul v-if="userInfo?.nickName" class="GlobarHeader-container-isLogin">
+      <ul v-if="userInfo?.nickName" class="GlobarHeader-container-isLogin">
+         <li>
+          <st-dropdown title='UserCommunity' @commandEmit='communityClick'>
+            <st-dropdown-item command="1" :disabled="route.path==='/create'">NewArtic</st-dropdown-item>
+            <st-dropdown-item command="1" :disabled="route.path==='/create'">MyColumns</st-dropdown-item>
+          </st-dropdown>
+        </li>
         <li>
           <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit'>
-            <st-dropdown-item command="1" :disabled="route.path==='/create'">NewArtic</st-dropdown-item>
-            <st-dropdown-item command="2">UserEdit</st-dropdown-item>
-            <st-dropdown-item command="3">Logout</st-dropdown-item>
+            <st-dropdown-item command="1" >UserEdit</st-dropdown-item>
+            <st-dropdown-item command="2">Logout</st-dropdown-item>
           </st-dropdown>
         </li>
       </ul>
@@ -26,6 +31,7 @@ import StDropdown from '@/components/StDropdown.vue'
 import StDropdownItem from '@/components/StDropdownItem.vue'
 import { useRouter, useRoute } from 'vue-router'
 import { getUserInfo } from '@/api/login'
+import { useStore } from 'vuex'
 export interface UserProps {
   avatar?: {
     url: string;
@@ -49,20 +55,25 @@ export default defineComponent({
   setup () {
     const router = useRouter()
     const route = useRoute()
+    const store = useStore()
     const commandEmit = (val: string) => {
-      const arr: string[] = ['/create', '/', '/Login']
-      if (val === '3') {
+      const arr: string[] = ['/create', '/Login']
+      if (val === '2') {
         localStorage.removeItem('token')
       }
       router.push(arr[+val - 1])
     }
+    const communityClick = (val:string) => {
+      console.log(val)
+    }
     const doSomething = (i:number) => {
-      const path = !i ? '/login' : ''
+      const path = !i ? '/login' : '/register'
       router.push(path)
     }
     const userInfo = ref()
     getUserInfo().then(res => {
       userInfo.value = res.data
+      store.commit('SVAVE_USER_INFO', res.data)
     }).catch(() => {
       router.push('/login')
     })
@@ -70,7 +81,8 @@ export default defineComponent({
       route,
       userInfo,
       commandEmit,
-      doSomething
+      doSomething,
+      communityClick
     }
   }
 })
@@ -114,6 +126,11 @@ export default defineComponent({
       }
     }
     &-isLogin {
+      display: flex;
+      align-items: center;
+      >li{
+        margin-left: 20px;
+      }
     }
   }
 }

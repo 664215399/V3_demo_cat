@@ -5,12 +5,22 @@ export default createStore({
   state: {
     token: getToken() || '',
     isLogin: false,
-    loadingFlag: false
+    loadingFlag: false,
+    userInfo: {
+      column: '',
+      email: '',
+      nickName: '',
+      _id: ''
+
+    }
   },
   mutations: {
     SAVE_USER_TOKEN: (state, token) => {
       state.token = token
       state.isLogin = true
+    },
+    SVAVE_USER_INFO: (state, payload) => {
+      state.userInfo = payload
     }
 
   },

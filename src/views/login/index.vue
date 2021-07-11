@@ -1,24 +1,17 @@
 <template>
-  <div class="login">
-    <div class="login-container wrapper">
+  <div class="login wrapper">
+    <div class="login-container ">
+      <div class="login-container-top">
+        <h1 class="welcome">Welcome To Login</h1>
+        <p class="noaccount">There Is No Account ?<span class="toRegister" @click="toRegister">Register</span></p>
+      </div>
       <div class="login-container-form">
         <st-form @form-submit="onFormSubmit">
           <st-form-item label="Email">
-            <st-input
-              :rules="emailRules"
-              placeholder="Please input your Email"
-              type="text"
-              v-model="emailValue"
-            ></st-input>
+            <st-input :rules="emailRules" placeholder="Please input your Email" type="text" v-model="emailValue"></st-input>
           </st-form-item>
           <st-form-item label="Passwoed">
-            <st-input
-              :rules="passRules"
-              placeholder="Please input your password"
-              type="password"
-              autocomplete="off"
-              v-model="passValue"
-            ></st-input>
+            <st-input :rules="passRules" placeholder="Please input your password" type="password" autocomplete="off" v-model="passValue"></st-input>
           </st-form-item>
           <!-- <template v-slot:submit>
             <div>
@@ -61,13 +54,16 @@ export default defineComponent({
     const passRules: RuleProps = [
       { type: 'required', message: 'Password cannot be empty' }
     ]
+    const toRegister = () => {
+      router.push('/register')
+    }
     const onFormSubmit = (result: boolean) => {
       if (result) {
         const payload = {
           email: emailValue.value,
           password: passValue.value
         }
-        store.dispatch('userLogin', payload).then(res => {
+        store.dispatch('userLogin', payload).then((res) => {
           if (res.token) router.push('/')
         })
       }
@@ -79,7 +75,8 @@ export default defineComponent({
       ...toRefs(data),
       onFormSubmit,
       emailValue,
-      passValue
+      passValue,
+      toRegister
     }
   }
 })
@@ -92,10 +89,35 @@ export default defineComponent({
   background: url("../../assets/images/background.png") no-repeat center
     center/cover;
   &-container {
-    height: 100%;
+    width: 500px;
+    margin: auto;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    &-top {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 50px 0px 0px 60px;
+      .welcome {
+        font-size: 36px;
+        color: #000;
+        padding-bottom: 4px;
+        color: #ffffff;
+      }
+      .noaccount {
+        font-size: 14px;
+        color: #ffffff;
+        .toRegister {
+          color: #2e58ff;
+          cursor: pointer;
+          display: inline-block;
+          margin-left: 10px;
+        }
+      }
+    }
     &-form {
-      margin: auto;
       height: 300px;
       width: 500px;
     }

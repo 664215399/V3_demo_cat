@@ -1,22 +1,18 @@
 <template>
   <div class="StForm-item_content">
     <input v-if="tag!=='textarea'" :class="['StForm-input',inputRef.error?'StForm-input_error':'']" :value='inputRef.val' @input='updateValue' @blur="validateInput" v-bind='$attrs' />
-    <textarea v-else :class="['StForm-textarea',inputRef.error?'StForm-input_error':'']" :value='inputRef.val' @input='updateValue' @blur="validateInput" v-bind='$attrs' ></textarea>
+    <textarea v-else :class="['StForm-textarea',inputRef.error?'StForm-input_error':'']" :value='inputRef.val' @input='updateValue' @blur="validateInput" v-bind='$attrs'></textarea>
     <div class="StForm-text" v-if="inputRef.error">{{inputRef.message}}</div>
   </div>
 </template>
 
 <script lang='ts'>
-import {
-  defineComponent,
-  reactive,
-  PropType,
-  onMounted
-} from 'vue'
+import { defineComponent, reactive, PropType, onMounted } from 'vue'
 import { mitter } from './StForm.vue'
 interface RuleProp {
-  type: 'required' | 'email';
+  type: 'required' | 'email' | 'custom';
   message: string;
+  validator?: () => boolean;
 }
 export type tagType = 'input' | 'textarea';
 export type RuleProps = RuleProp[];
@@ -66,6 +62,9 @@ export default defineComponent({
             case 'email':
               passed = reg.test(inputRef.val)
               break
+            case 'custom':
+              passed = rule.validator ? rule.validator() : true
+              break
             default:
               break
           }
@@ -86,26 +85,27 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.StForm-input,.StForm-textarea {
-  width:100%;
+.StForm-input,
+.StForm-textarea {
+  width: 100%;
   padding: 0px 10px;
   outline: none;
   box-sizing: border-box;
   border: 1px solid #dcdfe6;
   border-radius: 2px;
 }
-.StForm-textarea{
-  height:100px;
+.StForm-textarea {
+  height: 100px;
   line-height: 20px;
 }
 .StForm-input_error {
   border: 2px solid #f56c6c;
 }
-.StForm-input::placeholder{
+.StForm-input::placeholder {
   color: #999999;
   font-size: 12px;
 }
 .StForm-textarea::placeholder {
-  color:#999999;
+  color: #999999;
 }
 </style>

@@ -47,7 +47,7 @@ export default defineComponent({
 .StForm {
   background: rgba(255, 255, 255, 0.1);
   // background: #ffffff;
-  height:100%;
+  // height:100%;
   width: 100%;
   padding: 40px 20px;
   &-item {
