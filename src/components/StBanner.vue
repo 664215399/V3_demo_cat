@@ -37,9 +37,7 @@ export default defineComponent({
   },
   components: {},
   setup (props, context) {
-    const imageList = computed(() => {
-      return props.bannerList
-    })
+    const imageList = computed(() => props.bannerList)
     const currentIndex = ref(0)
     const Timer = ref()
     const setTimer = () => {

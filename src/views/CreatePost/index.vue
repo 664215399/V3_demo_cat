@@ -2,7 +2,7 @@
   <div class="create wrapper">
     <h2 class="create-title">New articles</h2>
     <div class="create-container">
-      <st-upload :beforeUpload='beforeUpload' @file-uploaded='onFileUploaded' @file-uploaded-error="onFileUploadeError" action='http://apis.imooc.com/api/upload'>
+      <st-upload :beforeUpload='beforeUpload' @file-uploaded='onFileUploaded' class="handClass" @file-uploaded-error="onFileUploadeError" action='http://apis.imooc.com/api/upload'>
         <template #loading>
           <st-loading type='local'></st-loading>
         </template>
@@ -10,19 +10,19 @@
           <img :src="successData.successData.data.url" alt="">
         </template>
         <template #error='errorData'>
-          <st-upload-failed :code='errorData.errorData.code' :errorDescription='errorData.errorData.error' > </st-upload-failed>
+          <st-upload-failed :code='errorData.errorData.code' :errorDescription='errorData.errorData.error'> </st-upload-failed>
         </template>
       </st-upload>
-      <st-form>
+      <st-form @form-submit="onFormSubmit">
         <st-form-item label="Title:">
-          <st-input placeholder="Please input title" />
+          <st-input placeholder="Please input title" :rules="titleProps" v-model="postData.title"/>
         </st-form-item>
         <st-form-item label="Content:">
-          <st-input placeholder="Please input contents of articles" tag='textarea' />
+          <st-input placeholder="Please input contents of articles" tag='textarea' :rules="contentProps" v-model="postData.content"/>
         </st-form-item>
-        <template #submit>
+        <!-- <template #submit>
           <st-button type="primary">Submit</st-button>
-        </template>
+        </template> -->
       </st-form>
     </div>
   </div>
@@ -35,11 +35,13 @@ import StButton from '@/components/StButton.vue'
 import StFormItem from '@/components/StFormItem.vue'
 import StLoading from '@/components/StLoading.vue'
 import StUploadFailed from '@/components/StUploadFailed.vue'
-import StInput from '@/components/StInput.vue'
+import StInput, { RuleProps } from '@/components/StInput.vue'
 import createMessage from '@/hook/createMessage'
 import { defineComponent, reactive } from 'vue'
-import { ImageProps, createPostProps, ResponesType } from '@/api/login'
-
+import { ImageProps, createPostProps, ResponesType, createPost } from '@/api/login'
+import { beforeUploadCheck } from '@/utils/index'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default defineComponent({
   name: '',
   props: {},
@@ -47,12 +49,14 @@ export default defineComponent({
     StForm,
     StFormItem,
     StInput,
-    StButton,
+    // StButton,
     StUpload,
     StLoading,
     StUploadFailed
   },
   setup () {
+    const store = useStore()
+    const router = useRouter()
     const postData: createPostProps = reactive({
       title: '',
       content: '',
@@ -60,25 +64,55 @@ export default defineComponent({
       column: '',
       author: ''
     })
-    const beforeUpload = (file: File) => {
-      const isformat = ['image/jpeg', 'image/png'].includes(file.type)
-      if (!isformat) {
-        createMessage('The format of the uploaded file is incorrect', 'error')
-      }
-      return isformat
-    }
-
+    const titleProps: RuleProps = [
+      { type: 'required', message: 'Title cannot be empty' }
+    ]
+    const contentProps: RuleProps = [
+      { type: 'required', message: 'Content cannot be empty' }
+    ]
     const onFileUploaded = (data: ResponesType<ImageProps>) => {
+      if (data.data._id) {
+        postData.image = data.data._id
+      }
       createMessage('Image uploaded successfully', 'success')
     }
     const onFileUploadeError = ({ error }: any) => {
       createMessage(error.response.data.error, 'error')
     }
+    const beforeUpload = (file: File) => {
+      const result = beforeUploadCheck(file, { format: ['image/jpeg', 'image/png'] })
+      const { passed, error } = result
+      if (error === 'format') {
+        createMessage('The file format is incorrect', 'error')
+      }
+      if (error === 'size') {
+        createMessage('The file size cannot exceed 1MB', 'error')
+      }
+      return passed
+    }
+    const onFormSubmit = (result: boolean) => {
+      if (!result) return false
+      if (!postData.image) {
+        createMessage('Please upload image', 'error')
+        return false
+      }
+      const { _id, column } = store.state.userInfo
+      postData.column = column
+      postData.author = _id
+      createPost(postData).then((res:any) => {
+        if (res.code === 0) {
+          router.push('/MyColum')
+        }
+      })
+    }
     return {
       beforeUpload,
       postData,
       onFileUploaded,
-      onFileUploadeError
+      onFileUploadeError,
+      contentProps,
+      titleProps,
+      onFormSubmit
     }
   }
 })
@@ -98,6 +132,21 @@ export default defineComponent({
   &-container {
     width: 80%;
     margin: auto;
+
+    .handClass {
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+}
+</style>
+<style lang='scss'>
+.create {
+  .StForm-submit-button {
+    background: #0068ff;
   }
 }
 </style>

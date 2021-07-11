@@ -8,6 +8,10 @@ interface createUserProps {
   password: string;
   nickName: string;
 }
+export interface myColumnsProps {
+  pageSize: number,
+  currentPage: number,
+}
 export interface createPostProps {
   title: string;
   content: string;
@@ -83,5 +87,13 @@ export function uploadImage (data: FormData) {
     url: '/upload',
     method: 'POST',
     data
+  })
+}
+
+export function getMyColumns (id:string, params:myColumnsProps) {
+  return request({
+    url: `/columns/${id}/posts?`,
+    method: 'GET',
+    params
   })
 }

@@ -1,13 +1,13 @@
 <template>
-  <li class="Dropdowm-item" :class="{'is-disabled':disabled}" @click="commandEmit">
+  <li class="Dropdowm-item" :class="{'is-disabled':disabled}" @click.prevent="itemClick">
     <slot></slot>
   </li>
 </template>
 
 <script lang='ts'>
-import { defineComponent, reactive, toRefs, SetupContext } from 'vue'
-import { mitter } from './StDropdown.vue'
-
+import { defineComponent } from 'vue'
+import mitt from 'mitt'// 事件监听器
+export const mitter = mitt()
 export default defineComponent({
   name: '',
   props: {
@@ -22,15 +22,12 @@ export default defineComponent({
 
   },
   components: {},
-  setup (props, context) {
-    const data = reactive({})
-    const commandEmit = () => {
+  setup (props) {
+    const itemClick = () => {
       mitter.emit('handlerCommand', props.command)
     }
     return {
-
-      commandEmit,
-      ...toRefs(data)
+      itemClick
     }
   }
 })

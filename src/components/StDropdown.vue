@@ -17,9 +17,8 @@ import {
   onUnmounted
 } from 'vue'
 import userClickOutside from '@/hook/userClickOutside'
-import mitt from 'mitt'// 事件监听器
-export const mitter = mitt()
 
+import { mitter } from './StDropdownItem.vue'
 export default defineComponent({
   name: '',
   props: {
@@ -54,19 +53,22 @@ export default defineComponent({
       if (props.trigger !== 'click') return false
       isOpen.value = (isOpen.value && showflag.value)
     })
-    const commandEmit = (val:any) => {
+    const commandEmit1 = (val:any) => {
+      // console.log(val)
       context.emit('commandEmit', val)
+
       isOpen.value = false
     }
-    mitter.on('handlerCommand', commandEmit)
+    mitter.on('handlerCommand', commandEmit1)
+
     onUnmounted(() => {
-      mitter.off('handlerCommand', commandEmit)// 销毁
+      mitter.all.delete('handlerCommand')// 销毁
       // funArr=[]
     })
     return {
       ...toRefs(data),
       isOpen,
-      commandEmit,
+      // commandEmit,
       DropdownRef,
       openToggle,
       domHover,

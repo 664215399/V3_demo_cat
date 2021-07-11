@@ -21,6 +21,7 @@ export default createStore({
     },
     SVAVE_USER_INFO: (state, payload) => {
       state.userInfo = payload
+      localStorage.setItem('column', payload.column)
     }
 
   },
@@ -30,6 +31,7 @@ export default createStore({
       if (data.token) {
         commit('SAVE_USER_TOKEN', data.token)
         localStorage.setItem('token', data.token)
+
         return data
       }
     }

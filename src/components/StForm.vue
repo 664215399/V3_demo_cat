@@ -1,13 +1,13 @@
 
 <template>
-  <form class="StForm">
+  <div class="StForm">
     <slot name="default"></slot>
     <div class="StForm-submit" >
         <slot name="submit">
           <button type="submit" class="StForm-submit-button" @click.prevent="submitForm">Submit</button>
         </slot>
     </div>
-  </form>
+  </div>
 </template>
 
 <script lang='ts'>
@@ -80,7 +80,9 @@ export default defineComponent({
     }
   }
   &-submit{
+    // margin:auto;
     text-align: center;
+    width:auto;
     &-button{
       cursor: pointer;
       user-select: none;

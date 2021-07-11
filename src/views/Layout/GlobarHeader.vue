@@ -4,13 +4,13 @@
       <h2 class="GlobarHeader-container-title">PET FAMILY</h2>
       <ul v-if="userInfo?.nickName" class="GlobarHeader-container-isLogin">
          <li>
-          <st-dropdown title='UserCommunity' @commandEmit='communityClick'>
+          <st-dropdown title='Community' @commandEmit='communityClick'>
             <st-dropdown-item command="1" :disabled="route.path==='/create'">NewArtic</st-dropdown-item>
-            <st-dropdown-item command="1" :disabled="route.path==='/create'">MyColumns</st-dropdown-item>
+            <st-dropdown-item command="2" :disabled="route.path==='/MyColum'">MyColumns</st-dropdown-item>
           </st-dropdown>
         </li>
         <li>
-          <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit'>
+          <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit1'>
             <st-dropdown-item command="1" >UserEdit</st-dropdown-item>
             <st-dropdown-item command="2">Logout</st-dropdown-item>
           </st-dropdown>
@@ -56,31 +56,37 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
-    const commandEmit = (val: string) => {
-      const arr: string[] = ['/create', '/Login']
-      if (val === '2') {
-        localStorage.removeItem('token')
-      }
+    const commandEmit1 = (val: string) => {
+      const arr: string[] = ['/Create', '/MyColum']
+      // if (val === '2') {
+      //   localStorage.removeItem('token')
+      // }
       router.push(arr[+val - 1])
     }
     const communityClick = (val:string) => {
-      console.log(val)
+      console.log(2)
+      // const arr1: string[] = ['/Create', '/MyColum']
+      // router.push(arr1[+val - 1])
     }
     const doSomething = (i:number) => {
       const path = !i ? '/login' : '/register'
       router.push(path)
     }
     const userInfo = ref()
-    getUserInfo().then(res => {
-      userInfo.value = res.data
-      store.commit('SVAVE_USER_INFO', res.data)
-    }).catch(() => {
-      router.push('/login')
-    })
+    if (localStorage.getItem('token')) {
+      getUserInfo().then(res => {
+        userInfo.value = res.data
+        store.commit('SVAVE_USER_INFO', res.data)
+      }).catch((error) => {
+        console.log(error)
+      // router.push('/login')
+      })
+    }
+
     return {
       route,
       userInfo,
-      commandEmit,
+      commandEmit1,
       doSomething,
       communityClick
     }

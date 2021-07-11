@@ -1,5 +1,5 @@
 <template>
-  <div class="Upload">
+  <div class="Upload" v-bind="$attrs">
     <input type="file" name="file" ref="fileInput" style="display:none" @change='handFileChage'>
     <div class="Upload-container" @click.prevent="triggerUpload">
       <slot name="defalut" v-if="fileStauts==='ready'">
@@ -38,6 +38,7 @@ export default defineComponent({
       type: Function as PropType<CheckFunction>
     }
   },
+  inheritAttrs: false, // 组件绑定v-bind='$attrs' 可在父组件中添加class类名等
   components: {},
   setup (props, context) {
     const fileStauts = ref<UploadStatus>('ready')
@@ -104,7 +105,6 @@ export default defineComponent({
 .Upload {
   cursor: pointer;
   user-select: none;
-
   width: 400px;
   margin: auto;
   height: 200px;
@@ -114,6 +114,7 @@ export default defineComponent({
   position: relative;
   color: #6c6c6e;
   overflow: hidden;
+
   &-container {
     width: 100%;
     height: 100%;
@@ -121,6 +122,7 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     .clickUpload {
       margin: 15px 0px;
     }
