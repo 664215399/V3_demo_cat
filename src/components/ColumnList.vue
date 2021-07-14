@@ -36,8 +36,6 @@ import { useRouter } from 'vue-router'
 import ColumnSkeleton from '@/components/Skeleton/ColumnSkeleton.vue'
 import StCard from '@/components/StCard.vue'
 
-import { useStore } from 'vuex'
-
 interface enterColumnPrpos {
   id: number;
   name?: string;
@@ -55,7 +53,6 @@ export default defineComponent({
 
   setup (props) {
     const router = useRouter()
-    const store = useStore()
     const ColumnList = computed(() => {
       return props.list
     })

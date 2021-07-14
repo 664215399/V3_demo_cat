@@ -1,18 +1,18 @@
 <template>
-  <div class="GlobarHeader">
+  <div class="GlobarHeader" :style="{background:$route.path==='/MyColum'?'#ff9914':'#0068ff'}">
     <div class="GlobarHeader-container wrapper">
       <h2 class="GlobarHeader-container-title">PET FAMILY</h2>
       <ul v-if="userInfo?.nickName" class="GlobarHeader-container-isLogin">
          <li>
-          <st-dropdown title='Community' @commandEmit='communityClick'>
+          <st-dropdown title='Community' @commandEmit='communityClick' >
             <st-dropdown-item command="1" :disabled="route.path==='/create'">NewArtic</st-dropdown-item>
             <st-dropdown-item command="2" :disabled="route.path==='/MyColum'">MyColumns</st-dropdown-item>
           </st-dropdown>
         </li>
         <li>
-          <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit1'>
-            <st-dropdown-item command="1" >UserEdit</st-dropdown-item>
-            <st-dropdown-item command="2">Logout</st-dropdown-item>
+          <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit1' index='1'>
+            <st-dropdown-item command="3" >UserEdit</st-dropdown-item>
+            <st-dropdown-item command="4">Logout</st-dropdown-item>
           </st-dropdown>
         </li>
       </ul>
@@ -57,6 +57,7 @@ export default defineComponent({
     const route = useRoute()
     const store = useStore()
     const commandEmit1 = (val: string) => {
+      console.log(val)
       const arr: string[] = ['/Create', '/MyColum']
       // if (val === '2') {
       //   localStorage.removeItem('token')

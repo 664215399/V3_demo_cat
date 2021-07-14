@@ -13,14 +13,12 @@ import {
   reactive,
   toRefs,
   ref,
-  watch,
-  onUnmounted
+  watch
 } from 'vue'
 import userClickOutside from '@/hook/userClickOutside'
-
-import { mitter } from './StDropdownItem.vue'
+import mitter from '@/utils/mitt'
 export default defineComponent({
-  name: '',
+  name: 'Dropdown',
   props: {
     title: {
       type: String,
@@ -34,6 +32,7 @@ export default defineComponent({
   },
   components: {},
   setup (props, context) {
+    const types = 1
     const DropdownRef = ref<null | HTMLElement>(null)
     const data = reactive({})
     const isOpen = ref(false)
@@ -53,18 +52,12 @@ export default defineComponent({
       if (props.trigger !== 'click') return false
       isOpen.value = (isOpen.value && showflag.value)
     })
-    const commandEmit1 = (val:any) => {
-      // console.log(val)
+    mitter.off('handlerCommand')
+    mitter.on('handlerCommand', (val:any) => {
       context.emit('commandEmit', val)
-
       isOpen.value = false
-    }
-    mitter.on('handlerCommand', commandEmit1)
-
-    onUnmounted(() => {
-      mitter.all.delete('handlerCommand')// 销毁
-      // funArr=[]
     })
+
     return {
       ...toRefs(data),
       isOpen,
@@ -72,7 +65,9 @@ export default defineComponent({
       DropdownRef,
       openToggle,
       domHover,
-      domLeave
+      domLeave,
+      types
+
     }
   }
 })

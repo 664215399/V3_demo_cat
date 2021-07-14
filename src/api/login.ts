@@ -30,7 +30,7 @@ export interface ImageProps {
   createAt?: string;
 }
 /**
- * discrption:UserLogin
+ * @discrption UserLogin
  * @param {Object} userInfo userInfo
  * @param {string} userInfo.email email
  * @param {string} userInfo.password password
@@ -43,7 +43,7 @@ export function userLogin (data: loginProps) {
   })
 }
 /**
- * discrption:getUserInfo
+ * @discrption getUserInfo
  */
 export function getUserInfo () {
   return request({
@@ -53,7 +53,7 @@ export function getUserInfo () {
 }
 
 /**
- * discrption:createUser
+ * @discrption createUser
  * @param {Object} fromData fromData...userInfo
  * @param {string} fromData.nickName name
  * @param {string} fromData.email email
@@ -67,12 +67,12 @@ export function createUser (data: createUserProps) {
   })
 }
 /**
- * discrption:createPost
- * @param {Object} data postsDetailes
- * @param {string} data.title title
- * @param {string} data.image image
- * @param {string} data.column column
- * @param {string} data.author author
+ * @discrption createPost
+ * @param {*} data postsDetailes
+ * @param {*} data.title title
+ * @param {*} data.image image
+ * @param {*} data.column column
+ * @param {*} data.author author
  */
 export function createPost (data: createPostProps) {
   return request({
@@ -81,7 +81,10 @@ export function createPost (data: createPostProps) {
     data
   })
 }
-
+/**
+ * @discrption createPost
+ * @param {*} data uploadImage
+ */
 export function uploadImage (data: FormData) {
   return request({
     url: '/upload',
@@ -89,11 +92,28 @@ export function uploadImage (data: FormData) {
     data
   })
 }
+/**
+ * @discrption getMyColumns
+ * @param {*} data uploadImage
+ * @param {*} pageSize pageSize
+ * @param {*} currentPage currentPage
+ */
 
 export function getMyColumns (id:string, params:myColumnsProps) {
   return request({
     url: `/columns/${id}/posts?`,
     method: 'GET',
     params
+  })
+}
+/**
+ * @discrption getMyColumnsDetailes
+ * @param {*} id Detailesid
+ */
+export function getMyColumnsDetailes (id:string) {
+  return request({
+    url: `/posts/${id}`,
+    method: 'GET'
+
   })
 }

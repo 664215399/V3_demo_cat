@@ -1,15 +1,16 @@
 <template>
-  <li class="Dropdowm-item" :class="{'is-disabled':disabled}" @click.prevent="itemClick">
+  <li class="Dropdowm-item" :class="{'is-disabled':disabled}" @click="itemClick">
     <slot></slot>
   </li>
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
-import mitt from 'mitt'// 事件监听器
-export const mitter = mitt()
+import { defineComponent, onUnmounted, onBeforeUnmount } from 'vue'
+// import mitt from 'mitt'// 事件监听器
+// export const mitter = mitt()
+import mitter from '@/utils/mitt'
 export default defineComponent({
-  name: '',
+  name: 'DropdownItem',
   props: {
     disabled: {
       type: Boolean,
@@ -19,13 +20,19 @@ export default defineComponent({
       type: String,
       default: ''
     }
-
   },
   components: {},
   setup (props) {
-    const itemClick = () => {
+    const itemClick = (event:any) => {
+      console.log(event.path[0].className)
+      // if (mitter) {
+      //   mitter.off('handlerCommand')
+      // }
+
       mitter.emit('handlerCommand', props.command)
+      // console.log(mitter.emit('handlerCommand', props.command))
     }
+
     return {
       itemClick
     }

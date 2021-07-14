@@ -58,7 +58,6 @@ export default defineComponent({
       transform: rotateY(180deg);
       transition: 1s all;
     }
-
     &-title {
       line-height: 45px;
     }

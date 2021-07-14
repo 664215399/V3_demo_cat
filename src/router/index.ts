@@ -16,6 +16,12 @@ const routes: Array<RouteRecordRaw> = [
 
     },
     {
+      path: '/MyColumnDetailes',
+      name: 'MyColumnDetailes',
+      meta: { requireLogin: true },
+      component: () => import(/* webpackChunkName: "about" */ '../views/Community/index.vue')
+    },
+    {
       path: '/ColumnDetailes',
       name: 'ColumnDetailes',
       meta: { requireLogin: true },
@@ -31,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
       path: '/MyColum',
       name: 'MyColum',
       meta: { requireLogin: true },
-      component: () => import(/* webpackChunkName: "about" */ '../views/Columns/MyColum.vue')
+      component: () => import(/* webpackChunkName: "about" */ '../views/Community/MyColumn.vue')
     }
 
     ]
