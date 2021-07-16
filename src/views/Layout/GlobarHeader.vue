@@ -1,5 +1,5 @@
 <template>
-  <div class="GlobarHeader" :style="{background:$route.path==='/MyColum'?'#ff9914':'#0068ff'}">
+  <div class="GlobarHeader" :style="{background:$route.meta.headerBg?$route.meta.headerBg:'#0068ff'}">
     <div class="GlobarHeader-container wrapper">
       <h2 class="GlobarHeader-container-title">PET FAMILY</h2>
       <ul v-if="userInfo?.nickName" class="GlobarHeader-container-isLogin">
@@ -26,7 +26,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 import StDropdown from '@/components/StDropdown.vue'
 import StDropdownItem from '@/components/StDropdownItem.vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -56,6 +56,7 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
+
     const commandEmit1 = (val: string) => {
       console.log(val)
       const arr: string[] = ['/Create', '/MyColum']

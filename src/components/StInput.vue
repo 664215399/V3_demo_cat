@@ -1,13 +1,13 @@
 <template>
   <div class="StForm-item_content">
-    <input v-if="tag!=='textarea'" :class="['StForm-input',inputRef.error?'StForm-input_error':'']" :value='inputRef.val' @input='updateValue' @blur="validateInput" v-bind='$attrs' />
-    <textarea v-else :class="['StForm-textarea',inputRef.error?'StForm-input_error':'']" :value='inputRef.val' @input='updateValue' @blur="validateInput" v-bind='$attrs'></textarea>
+    <input v-if="tag!=='textarea'" :class="['StForm-input',inputRef.error?'StForm-input_error':'']" v-model='inputRef.val' @blur="validateInput" v-bind='$attrs' />
+    <textarea v-else :class="['StForm-textarea',inputRef.error?'StForm-input_error':'']" v-model='inputRef.val'  @blur="validateInput" v-bind='$attrs'></textarea>
     <div class="StForm-text" v-if="inputRef.error">{{inputRef.message}}</div>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, reactive, PropType, onMounted } from 'vue'
+import { defineComponent, reactive, PropType, onMounted, computed } from 'vue'
 import { mitter } from './StForm.vue'
 interface RuleProp {
   type: 'required' | 'email' | 'custom';
@@ -34,10 +34,16 @@ export default defineComponent({
   components: {},
   setup (props, context) {
     const inputRef = reactive({
-      val: props.modelValue || '',
+      val: computed({
+        get: () => props.modelValue || '',
+        set: val => {
+          context.emit('update:modelValue', val)
+        }
+      }),
       error: false,
       message: ''
     })
+
     onMounted(() => {
       mitter.emit('from-item-created', validateInput)
     })
@@ -77,7 +83,7 @@ export default defineComponent({
     }
     return {
       validateInput,
-      updateValue,
+
       inputRef
     }
   }

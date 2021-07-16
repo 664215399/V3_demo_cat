@@ -1,8 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 import Layout from '../views/Layout/index.vue'
-import store from '../store'
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -18,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
     {
       path: '/MyColumnDetailes',
       name: 'MyColumnDetailes',
-      meta: { requireLogin: true },
+      meta: { requireLogin: true, headerBg: 'rgba(0,0,0,1)' },
       component: () => import(/* webpackChunkName: "about" */ '../views/Community/index.vue')
     },
     {
@@ -36,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
     {
       path: '/MyColum',
       name: 'MyColum',
-      meta: { requireLogin: true },
+      meta: { requireLogin: true, headerBg: '#ff9914' },
       component: () => import(/* webpackChunkName: "about" */ '../views/Community/MyColumn.vue')
     }
 

@@ -1,8 +1,8 @@
 <template>
   <div class="create wrapper">
-    <h2 class="create-title">New articles</h2>
+    <h2 class="create-title">{{isEdit?'Edit articles':'New articles'}}</h2>
     <div class="create-container">
-      <st-upload :beforeUpload='beforeUpload' @file-uploaded='onFileUploaded' class="handClass" @file-uploaded-error="onFileUploadeError" action='http://apis.imooc.com/api/upload'>
+      <st-upload :beforeUpload='beforeUpload' @file-uploaded='onFileUploaded' :upLoadedData='upLoadedData' class="handClass" @file-uploaded-error="onFileUploadeError" action='http://apis.imooc.com/api/upload'>
         <template #loading>
           <st-loading type='local'></st-loading>
         </template>
@@ -15,10 +15,10 @@
       </st-upload>
       <st-form @form-submit="onFormSubmit">
         <st-form-item label="Title:">
-          <st-input placeholder="Please input title" :rules="titleProps" v-model="postData.title"/>
+          <st-input placeholder="Please input title" :rules="titleProps" v-model="titleVal" />
         </st-form-item>
         <st-form-item label="Content:">
-          <st-input placeholder="Please input contents of articles" tag='textarea' :rules="contentProps" v-model="postData.content"/>
+          <st-input placeholder="Please input contents of articles" tag='textarea' :rules="contentProps" v-model="contentVal"/>
         </st-form-item>
         <!-- <template #submit>
           <st-button type="primary">Submit</st-button>
@@ -31,17 +31,17 @@
 <script lang='ts'>
 import StForm from '@/components/StForm.vue'
 import StUpload from '@/components/StUpload.vue'
-import StButton from '@/components/StButton.vue'
 import StFormItem from '@/components/StFormItem.vue'
 import StLoading from '@/components/StLoading.vue'
 import StUploadFailed from '@/components/StUploadFailed.vue'
 import StInput, { RuleProps } from '@/components/StInput.vue'
 import createMessage from '@/hook/createMessage'
-import { defineComponent, reactive } from 'vue'
-import { ImageProps, createPostProps, ResponesType, createPost } from '@/api/login'
+import { defineComponent, reactive, onMounted, ref } from 'vue'
+import { ImageProps, createPostProps, ResponesType, createPost, getMyColumnsDetailes } from '@/api/login'
 import { beforeUploadCheck } from '@/utils/index'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+
 export default defineComponent({
   name: '',
   props: {},
@@ -57,13 +57,34 @@ export default defineComponent({
   setup () {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
+    const apiType = ref()
+    const isEdit = !!route.query.id
+    const titleVal = ref('')
+    const contentVal = ref('')
+    const upLoadedData = ref()
     const postData: createPostProps = reactive({
-      title: '',
-      content: '',
+      title: titleVal.value,
+      content: contentVal.value,
       image: '',
       column: '',
       author: ''
     })
+    onMounted(() => {
+      if (isEdit) {
+        getMyColumnsDetailes(route.query.id + '').then(_res => {
+          const curretData = _res.data
+
+          if (curretData.image) {
+            upLoadedData.value = { data: curretData.image }
+            postData.image = curretData.image._id
+          }
+          titleVal.value = _res.data.title
+          contentVal.value = _res.data.content
+        })
+      }
+    })
+
     const titleProps: RuleProps = [
       { type: 'required', message: 'Title cannot be empty' }
     ]
@@ -99,20 +120,33 @@ export default defineComponent({
       const { _id, column } = store.state.userInfo
       postData.column = column
       postData.author = _id
-      createPost(postData).then((res:any) => {
+      if (isEdit) {
+        postData.title = titleVal.value
+        postData.content = contentVal.value
+      }
+
+      createPost(postData, apiType.value = isEdit, route.query.id + '').then((res:any) => {
         if (res.code === 0) {
-          router.push('/MyColum')
+          createMessage(isEdit ? 'Modified the article successfully' : 'Create article successfully', 'success')
+          setTimeout(() => {
+            router.push('/MyColum')
+          }, 2000)
         }
       })
     }
+
     return {
       beforeUpload,
       postData,
+      isEdit,
+      contentVal,
+      titleVal,
       onFileUploaded,
       onFileUploadeError,
       contentProps,
       titleProps,
-      onFormSubmit
+      onFormSubmit,
+      upLoadedData
     }
   }
 })

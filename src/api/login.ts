@@ -31,9 +31,9 @@ export interface ImageProps {
 }
 /**
  * @discrption UserLogin
- * @param {Object} userInfo userInfo
- * @param {string} userInfo.email email
- * @param {string} userInfo.password password
+ * @param {*} userInfo userInfo
+ * @param {*} userInfo.email email
+ * @param {*} userInfo.password password
  */
 export function userLogin (data: loginProps) {
   return request({
@@ -54,10 +54,10 @@ export function getUserInfo () {
 
 /**
  * @discrption createUser
- * @param {Object} fromData fromData...userInfo
- * @param {string} fromData.nickName name
- * @param {string} fromData.email email
- * @param {string} fromData.password password
+ * @param {*} fromData fromData...userInfo
+ * @param {*} fromData.nickName name
+ * @param {*} fromData.email email
+ * @param {*}} fromData.password password
  */
 export function createUser (data: createUserProps) {
   return request({
@@ -74,10 +74,10 @@ export function createUser (data: createUserProps) {
  * @param {*} data.column column
  * @param {*} data.author author
  */
-export function createPost (data: createPostProps) {
+export function createPost (data: createPostProps, apiType:boolean, Did:string) {
   return request({
-    url: '/posts',
-    method: 'POST',
+    url: '/posts' + `${apiType ? '/' + Did : ''}`,
+    method: apiType ? 'PATCH' : 'POST',
     data
   })
 }
@@ -114,6 +114,13 @@ export function getMyColumnsDetailes (id:string) {
   return request({
     url: `/posts/${id}`,
     method: 'GET'
+
+  })
+}
+export function deletePosts (id:string) {
+  return request({
+    url: `/posts/${id}`,
+    method: 'DELETE'
 
   })
 }

@@ -1,6 +1,14 @@
 <template>
   <div class="detailes">
     <div class="detailes-wrapper">
+      <div class="detailes-wrapper-row ">
+        <h2>OPERATION:</h2>
+        <h1 class="operate">
+          <p @click='editCurrentPosts'>EDITOR</p>
+          <p @click="deleteCurrentPosts">DELETE</p>
+        </h1>
+
+      </div>
       <div class="detailes-wrapper-row">
         <h2>USERNAME:</h2>
         <h1>{{detaileInfo.author?.nickName}}</h1>
@@ -52,9 +60,10 @@
 </template>
 
 <script lang='ts'>
-import { getMyColumnsDetailes } from '@/api/login'
+import { getMyColumnsDetailes, deletePosts } from '@/api/login'
 import { defineComponent, reactive, toRefs, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import createMessage from '@/hook/createMessage'
 export default defineComponent({
   name: '',
   props: {},
@@ -62,17 +71,33 @@ export default defineComponent({
   setup () {
     const data = reactive({})
     const route = useRoute()
-
     const Did = route.query.id + ''
     const detaileInfo = ref({})
+    const router = useRouter()
     getMyColumnsDetailes(Did).then((res) => {
       if (res) {
-        console.log(res.data)
         detaileInfo.value = res.data
       }
     })
+    const deleteCurrentPosts = () => {
+      deletePosts(Did).then((res:any) => {
+        if (res.code === 0) {
+          createMessage('The article was deleted successfully', 'success')
+          setTimeout(() => {
+            router.push('/MyColum')
+          }, 2000)
+        } else {
+          createMessage('Failed to delete article', 'error')
+        }
+      })
+    }
+    const editCurrentPosts = () => {
+      router.push(`/Create?id=${Did}`)
+    }
     return {
       detaileInfo,
+      deleteCurrentPosts,
+      editCurrentPosts,
       ...toRefs(data)
     }
   }
@@ -82,8 +107,8 @@ export default defineComponent({
 <style scoped lang='scss'>
 .detailes {
   color: #ffffff;
-    width: 100%;
-  height:calc(100% - 60px);
+  width: 100%;
+  height: calc(100% - 60px);
   overflow: auto;
   background: url("../../assets/images/detailes_b.jpeg") no-repeat center
     bottom/cover;
@@ -98,6 +123,16 @@ export default defineComponent({
       align-items: center;
       line-height: 50px;
       display: flex;
+      .operate {
+        display: flex;
+        p {
+          cursor: pointer;
+          user-select: none;
+          font-size: 30px;
+          font-weight: 600;
+          margin-right: 20px;
+        }
+      }
       h1 {
         margin-left: 20px;
         width: calc(100% - 220px);
@@ -108,7 +143,5 @@ export default defineComponent({
       }
     }
   }
-
 }
-
 </style>

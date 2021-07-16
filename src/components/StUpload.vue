@@ -22,7 +22,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, PropType, reactive, ref } from 'vue'
+import { defineComponent, PropType, reactive, ref, watch } from 'vue'
 import axios from 'axios'
 type UploadStatus = 'ready' | 'loading' | 'success' | 'error';
 type CheckFunction = (file: File) => boolean;
@@ -36,15 +36,24 @@ export default defineComponent({
     },
     beforeUpload: {
       type: Function as PropType<CheckFunction>
+    },
+    upLoadedData: {
+      type: Object
     }
   },
   inheritAttrs: false, // 组件绑定v-bind='$attrs' 可在父组件中添加class类名等
   components: {},
   setup (props, context) {
-    const fileStauts = ref<UploadStatus>('ready')
+    const fileStauts = ref<UploadStatus>(props.upLoadedData ? 'success' : 'ready')
     const fileInput = ref<null | HTMLInputElement>(null)
-    const successData = ref()
+    const successData = ref(props.upLoadedData)
     const errorData = ref()
+    watch(() => props.upLoadedData, (newvalue) => {
+      if (newvalue) {
+        fileStauts.value = 'success'
+        successData.value = newvalue
+      }
+    })
     const triggerUpload = () => {
       if (fileInput.value) {
         fileInput.value.click()

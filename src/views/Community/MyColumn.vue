@@ -1,6 +1,5 @@
 <template>
   <div class="myColumn-wrapper">
-
     <div class="myColumn wrapper" v-if="myColumnsList?.length">
        <st-card-trans v-for="(item, index) in myColumnsList" :key="index">
       <template #image>
