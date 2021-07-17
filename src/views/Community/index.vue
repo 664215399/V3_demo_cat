@@ -10,18 +10,6 @@
 
       </div>
       <div class="detailes-wrapper-row">
-        <h2>USERNAME:</h2>
-        <h1>{{detaileInfo.author?.nickName}}</h1>
-      </div>
-      <div class="detailes-wrapper-row">
-        <h2>USEREMAIL:</h2>
-        <h1>{{detaileInfo.author?.email}}</h1>
-      </div>
-      <div class="detailes-wrapper-row">
-        <h2>USER_ID:</h2>
-        <h1>{{detaileInfo.author?._id}}</h1>
-      </div>
-      <div class="detailes-wrapper-row">
         <h2>COLUMN_ID:</h2>
         <h1>{{detaileInfo.column}}</h1>
       </div>
@@ -64,6 +52,7 @@ import { getMyColumnsDetailes, deletePosts } from '@/api/login'
 import { defineComponent, reactive, toRefs, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import createMessage from '@/hook/createMessage'
+import stConfirm from '@/hook/stConfirm'
 export default defineComponent({
   name: '',
   props: {},
@@ -80,14 +69,21 @@ export default defineComponent({
       }
     })
     const deleteCurrentPosts = () => {
-      deletePosts(Did).then((res:any) => {
-        if (res.code === 0) {
-          createMessage('The article was deleted successfully', 'success')
-          setTimeout(() => {
-            router.push('/MyColum')
-          }, 2000)
-        } else {
-          createMessage('Failed to delete article', 'error')
+      stConfirm.show({
+        cancel () {
+          // createMessage('Cancelled operation', 'default')
+        },
+        confirm () {
+          deletePosts(Did).then((res:any) => {
+            if (res.code === 0) {
+              createMessage('The article was deleted successfully', 'success')
+              setTimeout(() => {
+                router.push('/MyColum')
+              }, 2000)
+            } else {
+              createMessage('Failed to delete article', 'error')
+            }
+          })
         }
       })
     }

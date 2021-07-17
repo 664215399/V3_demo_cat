@@ -8,6 +8,7 @@ const createMesage = (message: string, type: MessageType, duration = 2000, showC
     type
     // showClose
   })
+
   const mountNode = document.createElement('div')
   document.body.appendChild(mountNode)
   messageInstance.mount(mountNode)
@@ -16,4 +17,5 @@ const createMesage = (message: string, type: MessageType, duration = 2000, showC
     document.body.removeChild(mountNode)
   }, duration)
 }
+
 export default createMesage

@@ -2,6 +2,7 @@
   <div class="home">
       <!-- <st-message type="success" message='asdasdas'></st-message> -->
       <column-list :list='list'></column-list>
+      <!-- <st-confirm></st-confirm> -->
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import ColumnList from '@/components/ColumnList.vue'
 import { ColumnProps } from '@/utils/interface'
 import { getColumnList } from '@/api/index'
 import createMessage from '@/hook/createMessage'
+import StConfirm from '@/components/StConfirm.vue'
 export default defineComponent({
   name: 'app',
   components: { ColumnList },

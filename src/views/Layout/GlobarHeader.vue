@@ -3,15 +3,11 @@
     <div class="GlobarHeader-container wrapper">
       <h2 class="GlobarHeader-container-title">PET FAMILY</h2>
       <ul v-if="userInfo?.nickName" class="GlobarHeader-container-isLogin">
-         <li>
-          <st-dropdown title='Community' @commandEmit='communityClick' >
+        <li>
+          <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit' index='1'>
             <st-dropdown-item command="1" :disabled="route.path==='/create'">NewArtic</st-dropdown-item>
             <st-dropdown-item command="2" :disabled="route.path==='/MyColum'">MyColumns</st-dropdown-item>
-          </st-dropdown>
-        </li>
-        <li>
-          <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit1' index='1'>
-            <st-dropdown-item command="3" >UserEdit</st-dropdown-item>
+            <st-dropdown-item command="3">UserEdit</st-dropdown-item>
             <st-dropdown-item command="4">Logout</st-dropdown-item>
           </st-dropdown>
         </li>
@@ -57,18 +53,12 @@ export default defineComponent({
     const route = useRoute()
     const store = useStore()
 
-    const commandEmit1 = (val: string) => {
-      console.log(val)
-      const arr: string[] = ['/Create', '/MyColum']
-      // if (val === '2') {
-      //   localStorage.removeItem('token')
-      // }
+    const commandEmit = (val: string) => {
+      const arr: string[] = ['/Create', '/MyColum', '', '/login']
+      if (val === '4') {
+        localStorage.removeItem('token')
+      }
       router.push(arr[+val - 1])
-    }
-    const communityClick = (val:string) => {
-      console.log(2)
-      // const arr1: string[] = ['/Create', '/MyColum']
-      // router.push(arr1[+val - 1])
     }
     const doSomething = (i:number) => {
       const path = !i ? '/login' : '/register'
@@ -88,9 +78,9 @@ export default defineComponent({
     return {
       route,
       userInfo,
-      commandEmit1,
-      doSomething,
-      communityClick
+      commandEmit,
+      doSomething
+
     }
   }
 })
@@ -134,8 +124,7 @@ export default defineComponent({
       }
     }
     &-isLogin {
-      display: flex;
-      align-items: center;
+
       >li{
         margin-left: 20px;
       }
