@@ -14,28 +14,34 @@ const routes: Array<RouteRecordRaw> = [
 
     },
     {
-      path: '/MyColumnDetailes',
+      path: '/mycolumndetailes',
       name: 'MyColumnDetailes',
       meta: { requireLogin: true, headerBg: 'rgba(0,0,0,1)' },
       component: () => import(/* webpackChunkName: "about" */ '../views/Community/index.vue')
     },
     {
-      path: '/ColumnDetailes',
+      path: '/columndetailes',
       name: 'ColumnDetailes',
       meta: { requireLogin: true },
       component: () => import(/* webpackChunkName: "about" */ '../views/Columns/index.vue')
     },
     {
-      path: 'Create',
+      path: '/create',
       name: 'CreatePosts',
       meta: { requireLogin: true },
       component: () => import(/* webpackChunkName: "about" */ '../views/CreatePost/index.vue')
     },
     {
-      path: '/MyColum',
+      path: '/mycolum',
       name: 'MyColum',
       meta: { requireLogin: true, headerBg: '#ff9914' },
       component: () => import(/* webpackChunkName: "about" */ '../views/Community/MyColumn.vue')
+    },
+    {
+      path: '/useredit',
+      name: 'UserEdit',
+      meta: { requireLogin: true, headerBg: '#000' },
+      component: () => import(/* webpackChunkName: "about" */ '../views/User/index.vue')
     }
 
     ]

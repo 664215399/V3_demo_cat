@@ -21,7 +21,7 @@ export default defineComponent({
   name: '',
   props: {},
   components: {},
-  setup (props, context) {
+  setup () {
     const data = reactive({})
     return {
       ...toRefs(data)

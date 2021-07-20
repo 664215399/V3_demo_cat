@@ -56,7 +56,7 @@ export default defineComponent({
     const enterColumn = (id: string) => {
       // store.commit('SAVE_AVATAR', item.url)
       // localStorage.setItem('avatar', item.url ? item.url : 'noimage')
-      router.push({ path: '/MyColumnDetailes', query: { id: id } })
+      router.push({ path: '/mycolumndetailes', query: { id: id } })
     }
     console.log(myColumnsList)
     return {

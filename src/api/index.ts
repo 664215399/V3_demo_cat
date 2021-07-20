@@ -1,10 +1,10 @@
 import request from '@/utils/request'
-export function getColumnList () {
+export function getColumnList (page:number) {
   return request({
     url: '/v1/breeds',
     method: 'GET',
     params: {
-      limit: 21, page: 1
+      limit: 21, page
     }
   })
 }

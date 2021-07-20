@@ -6,6 +6,7 @@ export default createStore({
     token: getToken() || '',
     isLogin: false,
     loadingFlag: false,
+    isLoad: false,
     userInfo: {
       column: '',
       email: '',
@@ -22,6 +23,9 @@ export default createStore({
     SVAVE_USER_INFO: (state, payload) => {
       state.userInfo = payload
       localStorage.setItem('column', payload.column)
+    },
+    SET_ISLOAD: (state, payload) => {
+      state.isLoad = payload
     }
 
   },

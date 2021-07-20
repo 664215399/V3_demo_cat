@@ -54,7 +54,7 @@ export default defineComponent({
     const store = useStore()
 
     const commandEmit = (val: string) => {
-      const arr: string[] = ['/Create', '/MyColum', '', '/login']
+      const arr: string[] = ['/create', '/mycolum', '/useredit', '/login']
       if (val === '4') {
         localStorage.removeItem('token')
       }
