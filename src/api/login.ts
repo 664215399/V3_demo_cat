@@ -8,6 +8,12 @@ interface createUserProps {
   password: string;
   nickName: string;
 }
+export interface editUserProps {
+  avatar: string;
+  description: string;
+  nickName: string;
+  _id: string;
+}
 export interface myColumnsProps {
   pageSize: number,
   currentPage: number,
@@ -121,6 +127,15 @@ export function deletePosts (id:string) {
   return request({
     url: `/posts/${id}`,
     method: 'DELETE'
+
+  })
+}
+
+export function editUser (data:editUserProps) {
+  return request({
+    url: `/user/${data._id}`,
+    method: 'PATCH',
+    data
 
   })
 }

@@ -133,8 +133,8 @@ export default defineComponent({
   margin-top: 50px;
   margin-left: 74px;
   display: inline-block;
-  &:hover{
-    text-decoration:underline;
+  &:hover {
+    text-decoration: underline;
   }
 }
 .card .back p {
@@ -142,5 +142,17 @@ export default defineComponent({
   margin-top: 20px;
   line-height: 26px;
 }
-/* End of Back */
+
+@media screen and (max-width: 1200px) {
+
+  .card {
+    width: calc((100% - 20px) / 2);
+  }
+  .card .back p {
+    padding: 20px;
+    margin-top: 30px;
+    line-height: 30px;
+  }
+}
+
 </style>

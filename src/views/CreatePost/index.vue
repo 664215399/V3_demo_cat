@@ -120,16 +120,16 @@ export default defineComponent({
       const { _id, column } = store.state.userInfo
       postData.column = column
       postData.author = _id
-      if (isEdit) {
-        postData.title = titleVal.value
-        postData.content = contentVal.value
-      }
-
+      // if (isEdit) {
+      postData.title = titleVal.value
+      postData.content = contentVal.value
+      // }
+      console.log(postData)
       createPost(postData, apiType.value = isEdit, route.query.id + '').then((res:any) => {
         if (res.code === 0) {
           createMessage(isEdit ? 'Modified the article successfully' : 'Create article successfully', 'success')
           setTimeout(() => {
-            router.push('/MyColum')
+            router.push('/mycolum')
           }, 2000)
         }
       })

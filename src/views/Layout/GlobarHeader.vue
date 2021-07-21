@@ -1,13 +1,13 @@
 <template>
   <div class="GlobarHeader" :style="{background:$route.meta.headerBg?$route.meta.headerBg:'#0068ff'}">
     <div class="GlobarHeader-container wrapper">
-      <h2 class="GlobarHeader-container-title">PET FAMILY</h2>
+      <h2 class="GlobarHeader-container-title" @click="goHome">PET FAMILY</h2>
       <ul v-if="userInfo?.nickName" class="GlobarHeader-container-isLogin">
         <li>
           <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit' index='1'>
             <st-dropdown-item command="1" :disabled="route.path==='/create'">NewArtic</st-dropdown-item>
-            <st-dropdown-item command="2" :disabled="route.path==='/MyColum'">MyColumns</st-dropdown-item>
-            <st-dropdown-item command="3">UserEdit</st-dropdown-item>
+            <st-dropdown-item command="2" :disabled="route.path==='/mycolum'">MyColumns</st-dropdown-item>
+            <st-dropdown-item command="3" :disabled="route.path==='/useredit'">UserEdit</st-dropdown-item>
             <st-dropdown-item command="4">Logout</st-dropdown-item>
           </st-dropdown>
         </li>
@@ -52,7 +52,9 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
-
+    const goHome = () => {
+      router.push('/')
+    }
     const commandEmit = (val: string) => {
       const arr: string[] = ['/create', '/mycolum', '/useredit', '/login']
       if (val === '4') {
@@ -79,7 +81,8 @@ export default defineComponent({
       route,
       userInfo,
       commandEmit,
-      doSomething
+      doSomething,
+      goHome
 
     }
   }
@@ -102,6 +105,7 @@ export default defineComponent({
       cursor: pointer;
     }
     &-title {
+      cursor: pointer;
       font-size: 24px;
     }
     &-noLogin {

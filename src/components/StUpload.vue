@@ -50,6 +50,7 @@ export default defineComponent({
     const errorData = ref()
     watch(() => props.upLoadedData, (newvalue) => {
       if (newvalue) {
+        console.log(newvalue)
         fileStauts.value = 'success'
         successData.value = newvalue
       }

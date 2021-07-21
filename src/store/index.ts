@@ -7,6 +7,7 @@ export default createStore({
     isLogin: false,
     loadingFlag: false,
     isLoad: false,
+    count: 0,
     userInfo: {
       column: '',
       email: '',
@@ -26,6 +27,9 @@ export default createStore({
     },
     SET_ISLOAD: (state, payload) => {
       state.isLoad = payload
+    },
+    SAVE_COUNT: (state, payload) => {
+      state.count = payload
     }
 
   },
