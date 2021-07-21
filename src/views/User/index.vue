@@ -11,6 +11,7 @@
           <img :src="successData.successData.data.url" alt="">
         </template>
         <template #error='errorData'>
+
           <st-upload-failed :code='errorData.errorData.code' :errorDescription='errorData.errorData.error'> </st-upload-failed>
         </template>
         </st-upload>
