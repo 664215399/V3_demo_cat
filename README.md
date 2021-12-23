@@ -1,9 +1,10 @@
 # V3_demo_cat
 
-## view
-```
-https://664215399.github.io/V3_demo_cat/#/home
-```
+## View
+
+view: https://664215399.github.io/V3_demo_cat/#/home/
+
+
 ## Project setup
 ```
 npm install
