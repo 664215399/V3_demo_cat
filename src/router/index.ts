@@ -50,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     meta: { redirectAlreadyLogin: true },
-    component: () => import(/* webpackChunkName: "about" */ '../views/Login/index.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/stLogin/index.vue')
   },
   {
     path: '/register',
