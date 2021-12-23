@@ -1,6 +1,6 @@
 # V3_demo_cat
 
-## view
+## View
 
 view: https://664215399.github.io/V3_demo_cat/#/home/
 
