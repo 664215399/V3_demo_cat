@@ -45,8 +45,8 @@ export default defineComponent({
     const data = reactive({})
     const store = useStore()
     const router = useRouter()
-    const emailValue = ref()
-    const passValue = ref()
+    const emailValue = ref('664215399@qq.com')
+    const passValue = ref('1234567')
     const emailRules: RuleProps = [
       { type: 'required', message: 'Email cannot be empty' },
       { type: 'email', message: 'Email format mismatching' }

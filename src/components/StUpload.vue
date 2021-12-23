@@ -71,7 +71,7 @@ export default defineComponent({
         fileStauts.value = 'loading'
         const formData = new FormData()
         formData.append('files', files[0])
-        formData.append('icode', '732F8A5ABA56EA52')
+        formData.append('icode', '39D39F1692B64326')
         axios
           .post(props.action, formData, {
             headers: { 'Content-Type': 'multipart/form-data' }

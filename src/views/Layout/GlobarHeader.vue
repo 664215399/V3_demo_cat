@@ -1,7 +1,7 @@
 <template>
   <div class="GlobarHeader" :style="{background:$route.meta.headerBg?$route.meta.headerBg:'#0068ff'}">
     <div class="GlobarHeader-container wrapper">
-      <h2 class="GlobarHeader-container-title" @click="goHome">PET FAMILY</h2>
+      <h2 class="GlobarHeader-container-title" @click="goHome">CAT FAMILY</h2>
       <ul v-if="userInfo?.nickName" class="GlobarHeader-container-isLogin">
         <li>
           <st-dropdown :title='`Hello ${userInfo.nickName}`' @commandEmit='commandEmit' index='1'>

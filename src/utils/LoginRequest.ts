@@ -8,7 +8,7 @@ const Service = axios.create({
   }
 })
 Service.interceptors.request.use(config => {
-  config.params = { ...config.params, icode: '732F8A5ABA56EA52' }
+  config.params = { ...config.params, icode: '39D39F1692B64326' }
   if (localStorage.getItem('token')) {
     config.headers.Authorization = `Bearer ${getToken()}`
   }
@@ -18,7 +18,7 @@ Service.interceptors.request.use(config => {
   if (config.data instanceof FormData) {
     config.data.append('icode', '732F8A5ABA56EA52')
   } else {
-    config.data = { ...config.data, icode: '732F8A5ABA56EA52' }
+    config.data = { ...config.data, icode: '39D39F1692B64326' }
   }
 
   return config
