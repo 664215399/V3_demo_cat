@@ -2,7 +2,7 @@
 
 ## view
 
-[Windows/Mac/Linux view](https://664215399.github.io/V3_demo_cat/#/home/)
+[view](https://664215399.github.io/V3_demo_cat/#/home/) https://664215399.github.io/V3_demo_cat/#/home/
 
 
 ## Project setup
