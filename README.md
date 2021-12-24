@@ -4,6 +4,8 @@
 
 view: https://664215399.github.io/V3_demo_cat/#/home/
 
+## Tips
+项目中一些接口是访问的http,github pages是https,建议download 本地运行
 
 ## Project setup
 ```
