@@ -22,7 +22,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref } from 'vue'
 import StDropdown from '@/components/StDropdown.vue'
 import StDropdownItem from '@/components/StDropdownItem.vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -69,6 +69,7 @@ export default defineComponent({
     const userInfo = ref()
     if (localStorage.getItem('token')) {
       getUserInfo().then(res => {
+        console.log(res)
         userInfo.value = res.data
         store.commit('SVAVE_USER_INFO', res.data)
       }).catch((error) => {

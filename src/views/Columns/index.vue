@@ -69,17 +69,17 @@ export default defineComponent({
     const temperament = ref()
     const countryImg = ref('')
     searchDetailes(currentId).then((res) => {
-      // setTimeout(() => {
-      detailesInfo.value = res.data[0].breeds[0]
-      bannerList.value = res.data.map((item: any) => {
-        return { iamge: item.url, width: item.width, height: item.height }
-      })
-      temperament.value = StringConvertArray(
-        detailesInfo.value.temperament,
-        ','
-      )
-      countryImg.value = CountryCodeConvert(detailesInfo.value.country_code)
-      // }, 300000000)
+      setTimeout(() => {
+        detailesInfo.value = res.data[0].breeds[0]
+        bannerList.value = res.data.map((item: any) => {
+          return { iamge: item.url, width: item.width, height: item.height }
+        })
+        temperament.value = StringConvertArray(
+          detailesInfo.value.temperament,
+          ','
+        )
+        countryImg.value = CountryCodeConvert(detailesInfo.value.country_code)
+      }, 300000000)
     })
 
     return {
