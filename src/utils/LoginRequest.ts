@@ -8,7 +8,7 @@ const Service = axios.create({
   }
 })
 Service.interceptors.request.use(config => {
-  config.params = { ...config.params, icode: '0F1FBE6181FC7AA5' }
+  config.params = { ...config.params, icode: '9D30A73F41024FED' }
   if (localStorage.getItem('token')) {
     config.headers.Authorization = `Bearer ${getToken()}`
   }
@@ -16,9 +16,9 @@ Service.interceptors.request.use(config => {
   //   config.headers['Content-Type'] = 'multipart/form-data'
   // }
   if (config.data instanceof FormData) {
-    config.data.append('icode', '0F1FBE6181FC7AA5')
+    config.data.append('icode', '9D30A73F41024FED')
   } else {
-    config.data = { ...config.data, icode: '0F1FBE6181FC7AA5' }
+    config.data = { ...config.data, icode: '9D30A73F41024FED' }
   }
 
   return config
